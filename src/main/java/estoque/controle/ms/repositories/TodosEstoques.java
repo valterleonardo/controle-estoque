@@ -19,7 +19,5 @@ public interface TodosEstoques {
 	
 	Estoque salvar(Estoque estoque);
 	
-	Boolean remover(Estoque estoque);
-	
-	
+	Estoque inativar(Estoque estoque);
 }

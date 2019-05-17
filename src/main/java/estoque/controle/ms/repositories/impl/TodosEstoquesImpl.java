@@ -2,11 +2,19 @@ package estoque.controle.ms.repositories.impl;
 
 import java.util.List;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.NoResultException;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
 import estoque.controle.ms.entities.Estoque;
 import estoque.controle.ms.repositories.TodosEstoques;
 
 public class TodosEstoquesImpl implements TodosEstoques{
 
+	@Autowired EntityManagerFactory emf;
+	
 	@Override
 	public List<Estoque> listarEstoquesPorEmpresa(Long idEmpresa) {
 		// TODO Auto-generated method stub
@@ -27,14 +35,24 @@ public class TodosEstoquesImpl implements TodosEstoques{
 
 	@Override
 	public Estoque salvar(Estoque estoque) {
-		// TODO Auto-generated method stub
+		EntityManager em = emf.createEntityManager();
+		
+		try {
+			
+			
+		} catch (NoResultException e) {
+			return null;
+			
+		} catch (Exception e) {
+			
+		}		
 		return null;
 	}
 
 	@Override
-	public Boolean remover(Estoque estoque) {
-		// TODO Auto-generated method stub
-		return null;
+	public Estoque inativar(Estoque estoque) {
+		return salvar(estoque);
+
 	}
 
 }
