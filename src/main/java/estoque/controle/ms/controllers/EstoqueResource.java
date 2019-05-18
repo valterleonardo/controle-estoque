@@ -1,11 +1,9 @@
 package estoque.controle.ms.controllers;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -31,7 +29,7 @@ public class EstoqueResource {
 	}
 
 	@GetMapping
-	public ResponseEntity<List<Estoque>> getEstoque() throws NoSuchBeanDefinitionException {
+	public ResponseEntity<List<Estoque>> getEstoque() {
 		log.info("EstoqueResource: iniciando processamento getEstoque()");
 		
 		try {
@@ -39,40 +37,92 @@ public class EstoqueResource {
 			return new ResponseEntity<List<Estoque>>(estoques, HttpStatus.ACCEPTED);
 			
 		} catch (Exception e) {
-			log.info("EstoqueResource: Erro ao processar getEstoque({})", e.getCause().toString());
-			return new ResponseEntity<List<Estoque>>(HttpStatus.BAD_REQUEST);
+			log.info("EstoqueResource: Erro ao executar getEstoque({})", e.getCause().toString());
+			return new ResponseEntity<List<Estoque>>(HttpStatus.INTERNAL_SERVER_ERROR);
+			
 		} finally {
 			log.info("EstoqueResource: finalizando processamento getEstoque()");
 		}
 	}
 	
 	@GetMapping(path = {"/{id}"})
-	public ResponseEntity<Optional<Estoque>> getEstoquePorId(@PathVariable Integer id){
+	public ResponseEntity<Estoque> getEstoquePorId(@PathVariable Integer id){
 		log.info("EstoqueResource: iniciando processamento getEstoque(/{})", id);
-		Optional<Estoque> estoques = estoqueService.getById(id);
-		log.info("EstoqueResource: finalizando processamento getEstoque(/{})", id);
-		return new ResponseEntity<Optional<Estoque>>(estoques, HttpStatus.ACCEPTED); 
+		try {
+			Estoque estoque = estoqueService.getById(id);
+			if (estoque != null) 
+				return new ResponseEntity<Estoque>(estoque, HttpStatus.ACCEPTED);
+			else
+				return new ResponseEntity<Estoque>(HttpStatus.NOT_FOUND);
+						
+		} catch (Exception e) {
+			log.info("EstoqueResource: Erro ao executar putEstoque({})", e.getCause().toString());
+			return new ResponseEntity<Estoque>(HttpStatus.INTERNAL_SERVER_ERROR);
+			
+		} finally {
+			log.info("EstoqueResource: finalizando processamento getEstoque(/{})", id);
+		}
 	}	
 	
-	@GetMapping(path = {"/empresa/{id}"})
-	public ResponseEntity<Estoque> getEstoquePorEmpresa(@PathVariable Long id){
-		log.info("EstoqueResource: iniciando processamento getEstoque(/{})", id);
-		log.info("EstoqueResource: finalizando processamento getEstoque(/{})", id);
-		return new ResponseEntity<Estoque>(HttpStatus.ACCEPTED); 
+	@GetMapping(path = {"/empresa/{idEmpresa}"})
+	public ResponseEntity<List<Estoque>> getEstoquePorEmpresa(@PathVariable Integer idEmpresa){
+		log.info("EstoqueResource: iniciando processamento getEstoquePorEmpresa(/empresa/{})", idEmpresa);
+		
+		try {
+			List<Estoque> estoquesPorEmpresa = estoqueService.getEstoquePorEmpresaId(idEmpresa);
+			if(estoquesPorEmpresa == null || !estoquesPorEmpresa.isEmpty())
+				return new ResponseEntity<List<Estoque>>(estoquesPorEmpresa, HttpStatus.ACCEPTED);
+			else
+				return new ResponseEntity<List<Estoque>>(HttpStatus.NOT_FOUND);
+			
+		} catch (Exception e) {
+			log.info("EstoqueResource: Erro ao executar getEstoquePorEmpresa(/empresa/{})", e.getCause().toString());
+			return new ResponseEntity<List<Estoque>>(HttpStatus.INTERNAL_SERVER_ERROR);
+			
+		} finally {
+			log.info("EstoqueResource: finalizando processamento getEstoquePorEmpresa(/empresa/{})", idEmpresa);			
+		}
 	}	
 	
-	@GetMapping(path = {"/produto/{id}"})
-	public ResponseEntity<Estoque> getEstoquePorProduto(@PathVariable Long id){
-		log.info("EstoqueResource: iniciando processamento getEstoque(/{})", id);
-		log.info("EstoqueResource: finalizando processamento getEstoque(/{})", id);
-		return new ResponseEntity<Estoque>(HttpStatus.ACCEPTED); 
+	@GetMapping(path = {"/produto/{idProduto}"})
+	public ResponseEntity<List<Estoque>> getEstoquePorProduto(@PathVariable Integer idProduto){
+		log.info("EstoqueResource: iniciando processamento getEstoquePorProduto(/produto/{})", idProduto);
+		try {
+			List<Estoque> estoques = estoqueService.getEstoquePorProdutoId(idProduto);
+			
+			if (estoques.isEmpty())
+				return new ResponseEntity<List<Estoque>>(HttpStatus.NOT_FOUND); 
+			
+			return new ResponseEntity<List<Estoque>>(estoques, HttpStatus.ACCEPTED);
+			
+		} catch (Exception e) {
+			log.info("EstoqueResource: Erro ao executar getEstoquePorProduto(/produto/{} - {})",idProduto, 
+																								e.getCause().toString());
+			return new ResponseEntity<List<Estoque>>(HttpStatus.INTERNAL_SERVER_ERROR);
+		} finally {
+			log.info("EstoqueResource: finalizando processamento getEstoquePorProduto(/produto/{})", idProduto);
+		} 
 	}	
 	
 	@GetMapping(path = {"/{idEmpresa}/{idProduto}"})
-	public ResponseEntity<Estoque> getEstoquePorEmpresaProduto(@PathVariable Long idEmpresa, Long idProduto){
-		log.info("EstoqueResource: iniciando processamento getEstoque(/{}/{})", idEmpresa, idProduto);
-		log.info("EstoqueResource: finalizando processamento getEstoque(/{}/{})", idEmpresa, idProduto);
-		return new ResponseEntity<Estoque>(HttpStatus.ACCEPTED); 
+	public ResponseEntity<List<Estoque>> getEstoquePorEmpresaProduto(@PathVariable Integer idEmpresa, Integer idProduto){
+		log.info("EstoqueResource: iniciando processamento getEstoquePorEmpresaProduto(/{}/{})", idProduto, idEmpresa);
+		
+		try {
+			List<Estoque> estoques = estoqueService.getEstoquePorEmpresaProduto(idEmpresa, idProduto);
+			
+			if (estoques.isEmpty())
+				return new ResponseEntity<List<Estoque>>(HttpStatus.NOT_FOUND); 
+			
+			return new ResponseEntity<List<Estoque>>(estoques, HttpStatus.ACCEPTED);
+			
+		} catch (Exception e) {
+			log.info("EstoqueResource: Erro ao executar getEstoquePorEmpresaProduto(/{}/{} - {})",idProduto, idEmpresa, 
+																								e.getCause().toString());
+			return new ResponseEntity<List<Estoque>>(HttpStatus.INTERNAL_SERVER_ERROR);
+		} finally {
+			log.info("EstoqueResource: finalizando processamento getEstoquePorEmpresaProduto(/{}/{})", idProduto, idEmpresa);
+		}  
 	}	
 	
 	@PutMapping
@@ -80,20 +130,35 @@ public class EstoqueResource {
 		log.info("EstoqueResource: iniciando processamento putEstoque()");
 		try {
 			Estoque novoEstoque = estoqueService.save(estoque);
-			log.info("EstoqueResource: finalizando processamento putEstoque()");
-			
 			return new ResponseEntity<Estoque>(novoEstoque, HttpStatus.ACCEPTED);
+			
 		} catch (Exception e) {
 			log.info("EstoqueResource: Erro ao salvar estoque putEstoque({})", e.getCause().toString());
-			return new ResponseEntity<Estoque>(HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<Estoque>(HttpStatus.INTERNAL_SERVER_ERROR);
+		} finally {
+			log.info("EstoqueResource: finalizando processamento putEstoque()");
 		}
 	}
 	
 	@DeleteMapping(path = {"/{id}"})
-	public ResponseEntity<?> deleteEstoque(@PathVariable Long id){
+	public ResponseEntity<?> deleteEstoque(@PathVariable Integer id){
 		log.info("EstoqueResource: iniciando processamento deleteEstoque({})", id);
-		log.info("EstoqueResource: finalizando processamento deleteEstoque({})", id);
-		return new ResponseEntity<>(HttpStatus.ACCEPTED); 
+		
+		try {
+			if(estoqueService.delete(id))
+				return new ResponseEntity<>(HttpStatus.ACCEPTED);
+			else
+				return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		} catch (Exception e) {
+			log.info("EstoqueResource: Erro ao deletar estoque deleteEstoque({})", e.getCause().toString());
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+			
+		} finally {
+			log.info("EstoqueResource: finalizando processamento deleteEstoque({})", id);
+		}
+		
+		
+		
 	}
 
 }

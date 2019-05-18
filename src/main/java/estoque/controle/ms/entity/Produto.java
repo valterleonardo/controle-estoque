@@ -18,7 +18,7 @@ public class Produto implements Serializable{
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long id;		
+	private Integer id;		
 	
 	@Column
 	private String descricao;
@@ -33,11 +33,11 @@ public class Produto implements Serializable{
 	@Column
 	private Boolean ativo;
 
-	public Long getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
