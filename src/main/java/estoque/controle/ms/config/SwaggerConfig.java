@@ -34,7 +34,7 @@ public class SwaggerConfig {
 
         ApiInfo apiInfo = new ApiInfo(
                 "MicroService - Controle de Estoque",
-                "API REST para controle de estoque e produtos por empresa.",
+                "API REST para controle de estoque de produtos, por empresa.",
                 "1.0",
                 "Terms of Service",
                 new Contact("Valter L.M. Bortoletto", "","vlmb.leo@gmail.com"),

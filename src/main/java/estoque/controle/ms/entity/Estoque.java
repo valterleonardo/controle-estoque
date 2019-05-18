@@ -24,7 +24,7 @@ public class Estoque implements Serializable {
 	private static final long serialVersionUID = -5204253362209154861L;
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ESTOQUE_SEQ_ID")
 	private Integer id;		
 	
 	@ManyToOne

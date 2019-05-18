@@ -105,7 +105,7 @@ public class EstoqueResource {
 	}	
 	
 	@GetMapping(path = {"/{idEmpresa}/{idProduto}"})
-	public ResponseEntity<List<Estoque>> getEstoquePorEmpresaProduto(@PathVariable Integer idEmpresa, Integer idProduto){
+	public ResponseEntity<List<Estoque>> getEstoquePorEmpresaProduto(@PathVariable Integer idEmpresa,@PathVariable Integer idProduto){
 		log.info("EstoqueResource: iniciando processamento getEstoquePorEmpresaProduto(/{}/{})", idProduto, idEmpresa);
 		
 		try {
@@ -156,9 +156,5 @@ public class EstoqueResource {
 		} finally {
 			log.info("EstoqueResource: finalizando processamento deleteEstoque({})", id);
 		}
-		
-		
-		
 	}
-
 }
