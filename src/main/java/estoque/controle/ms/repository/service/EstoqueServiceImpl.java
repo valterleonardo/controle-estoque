@@ -9,10 +9,8 @@ import org.springframework.stereotype.Service;
 
 import estoque.controle.ms.entity.Estoque;
 import estoque.controle.ms.repository.EstoqueRepository;
-import lombok.AllArgsConstructor;
 
 @Service
-@AllArgsConstructor
 public class EstoqueServiceImpl implements EstoqueService {
 
     private EstoqueRepository estoqueRepository = null;

@@ -18,10 +18,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import estoque.controle.ms.entity.Estoque;
 import estoque.controle.ms.repository.service.EstoqueService;
-import lombok.AllArgsConstructor;
 
 @RestController
-@AllArgsConstructor
 @RequestMapping(value="/api/estoque")
 public class EstoqueResource {
 
