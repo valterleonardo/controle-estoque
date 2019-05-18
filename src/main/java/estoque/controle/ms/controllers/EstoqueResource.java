@@ -1,6 +1,7 @@
 package estoque.controle.ms.controllers;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,26 +16,44 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import estoque.controle.ms.entities.Estoque;
+import estoque.controle.ms.entity.Estoque;
+import estoque.controle.ms.repository.service.EstoqueService;
+import lombok.AllArgsConstructor;
 
 @RestController
+@AllArgsConstructor
 @RequestMapping(value="/api/estoque")
 public class EstoqueResource {
 
 	private final static Logger log = LoggerFactory.getLogger(EstoqueResource.class);
+	private EstoqueService estoqueService;
+
+	EstoqueResource(EstoqueService estoqueService) {
+       this.estoqueService = estoqueService;
+	}
 
 	@GetMapping
 	public ResponseEntity<List<Estoque>> getEstoque() throws NoSuchBeanDefinitionException {
-		log.info("EstoqueResource: iniciando processamento getEstoque()");		
-		log.info("EstoqueResource: finalizando processamento getEstoque()");
-		return new ResponseEntity<List<Estoque>>(HttpStatus.ACCEPTED); 
+		log.info("EstoqueResource: iniciando processamento getEstoque()");
+		
+		try {
+			List<Estoque> estoques = estoqueService.getAll();
+			return new ResponseEntity<List<Estoque>>(estoques, HttpStatus.ACCEPTED);
+			
+		} catch (Exception e) {
+			log.info("EstoqueResource: Erro ao processar getEstoque({})", e.getCause().toString());
+			return new ResponseEntity<List<Estoque>>(HttpStatus.BAD_REQUEST);
+		} finally {
+			log.info("EstoqueResource: finalizando processamento getEstoque()");
+		}
 	}
 	
 	@GetMapping(path = {"/{id}"})
-	public ResponseEntity<Estoque> getEstoquePorId(@PathVariable Long id){
+	public ResponseEntity<Optional<Estoque>> getEstoquePorId(@PathVariable Integer id){
 		log.info("EstoqueResource: iniciando processamento getEstoque(/{})", id);
+		Optional<Estoque> estoques = estoqueService.getById(id);
 		log.info("EstoqueResource: finalizando processamento getEstoque(/{})", id);
-		return new ResponseEntity<Estoque>(HttpStatus.ACCEPTED); 
+		return new ResponseEntity<Optional<Estoque>>(estoques, HttpStatus.ACCEPTED); 
 	}	
 	
 	@GetMapping(path = {"/empresa/{id}"})
@@ -61,15 +80,15 @@ public class EstoqueResource {
 	@PutMapping
 	public ResponseEntity<Estoque> putEstoque(@RequestBody Estoque estoque){
 		log.info("EstoqueResource: iniciando processamento putEstoque()");
-		log.info("EstoqueResource: finalizando processamento putEstoque()");
-		return new ResponseEntity<Estoque>(HttpStatus.ACCEPTED); 
-	}
-	
-	@PutMapping(path = {"/{id}"})
-	public ResponseEntity<Estoque> putEstoque(@PathVariable Long id, @RequestBody Estoque estoque){
-		log.info("EstoqueResource: iniciando processamento putEstoque({})", id);
-		log.info("EstoqueResource: finalizando processamento putEstoque({})", id);
-		return new ResponseEntity<Estoque>(HttpStatus.ACCEPTED); 
+		try {
+			Estoque novoEstoque = estoqueService.save(estoque);
+			log.info("EstoqueResource: finalizando processamento putEstoque()");
+			
+			return new ResponseEntity<Estoque>(novoEstoque, HttpStatus.ACCEPTED);
+		} catch (Exception e) {
+			log.info("EstoqueResource: Erro ao salvar estoque putEstoque({})", e.getCause().toString());
+			return new ResponseEntity<Estoque>(HttpStatus.BAD_REQUEST);
+		}
 	}
 	
 	@DeleteMapping(path = {"/{id}"})

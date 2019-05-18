@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import estoque.controle.ms.entities.Produto;
+import estoque.controle.ms.entity.Produto;
 
 @RestController
 @RequestMapping(value="/api/produto")
@@ -22,13 +22,4 @@ private final static Logger log = LoggerFactory.getLogger(ProdutoResource.class)
 		log.info("RequestService: /ping");
 	    return new ResponseEntity<>("Pong!", HttpStatus.OK);
 	}
-	
-	@RequestMapping(method = RequestMethod.GET)
-	public ResponseEntity<Produto> listarProdutos(){
-		
-		
-		return new ResponseEntity<Produto>(HttpStatus.BAD_REQUEST);
-		
-	}
-
 }

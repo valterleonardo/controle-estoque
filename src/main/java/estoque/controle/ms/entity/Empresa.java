@@ -1,4 +1,4 @@
-package estoque.controle.ms.entities;
+package estoque.controle.ms.entity;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -12,19 +12,22 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
-public class Produto implements Serializable{
+public class Empresa implements Serializable{
+		
+	private static final long serialVersionUID = 5653573443159688609L;
 
-	private static final long serialVersionUID = -6913338869810996016L;
-	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;		
 	
 	@Column
-	private String descricao;
+	private String nomeFantasia;
 	
 	@Column
-	private String nome;
+	private String razaoSocial;
+	
+	@Column
+	private String cnpj;
 	
 	@Column(name = "data_entrada")
 	@Temporal(TemporalType.DATE)
@@ -32,6 +35,7 @@ public class Produto implements Serializable{
 	
 	@Column
 	private Boolean ativo;
+
 
 	public Long getId() {
 		return id;
@@ -41,20 +45,28 @@ public class Produto implements Serializable{
 		this.id = id;
 	}
 
-	public String getDescricao() {
-		return descricao;
+	public String getNomeFantasia() {
+		return nomeFantasia;
 	}
 
-	public void setDescricao(String descricao) {
-		this.descricao = descricao;
+	public void setNomeFantasia(String nomeFantasia) {
+		this.nomeFantasia = nomeFantasia;
 	}
 
-	public String getNome() {
-		return nome;
+	public String getRazaoSocial() {
+		return razaoSocial;
 	}
 
-	public void setNome(String nome) {
-		this.nome = nome;
+	public void setRazaoSocial(String razaoSocial) {
+		this.razaoSocial = razaoSocial;
+	}
+
+	public String getCnpj() {
+		return cnpj;
+	}
+
+	public void setCnpj(String cnpj) {
+		this.cnpj = cnpj;
 	}
 
 	public Date getDataEntrada() {
@@ -72,4 +84,6 @@ public class Produto implements Serializable{
 	public void setAtivo(Boolean ativo) {
 		this.ativo = ativo;
 	}
+
+
 }

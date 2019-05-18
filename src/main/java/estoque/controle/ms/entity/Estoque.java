@@ -1,4 +1,4 @@
-package estoque.controle.ms.entities;
+package estoque.controle.ms.entity;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -27,7 +27,7 @@ public class Estoque implements Serializable {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long id;		
+	private Integer id;		
 	
 	@ManyToOne(fetch = FetchType.LAZY)	
     @JoinColumn(name = "empresa_id")
@@ -53,11 +53,11 @@ public class Estoque implements Serializable {
 	private Boolean ativo;
 	
 	
-	public Long getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
