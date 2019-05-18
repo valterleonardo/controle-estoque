@@ -12,7 +12,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Index;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -20,7 +22,6 @@ import javax.persistence.TemporalType;
 import estoque.controle.ms.dict.StatusEstoque;
 
 @Entity
-@Table(name = "estoque", indexes = { @Index(name = "index_estoque1", columnList = "empresa_id, produto_id")})
 public class Estoque implements Serializable {
 
 	private static final long serialVersionUID = -5204253362209154861L;
@@ -29,17 +30,15 @@ public class Estoque implements Serializable {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id;		
 	
-	@ManyToOne(fetch = FetchType.LAZY)	
-    @JoinColumn(name = "empresa_id")
-	//@JoinTable(name="empresa", joinColumns = @JoinColumn(name="id"), inverseJoinColumns = @JoinColumn(name="empresa_id"))
+	@ManyToOne
+	@JoinColumn(name = "empresa_id")
 	private Empresa empresa;
 	
 	@Enumerated
 	private StatusEstoque status;
 	
-	@ManyToOne(fetch = FetchType.LAZY)	
-    @JoinColumn(name = "produto_id")
-    //@JoinTable(name="produto", joinColumns = @JoinColumn(name="id"), inverseJoinColumns = @JoinColumn(name="produto_id"))
+	@ManyToOne
+	@JoinColumn(name = "produto_id")
 	private Produto produto;
 	
 	@Column
