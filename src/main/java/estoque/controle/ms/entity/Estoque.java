@@ -23,6 +23,18 @@ public class Estoque implements Serializable {
 
 	private static final long serialVersionUID = -5204253362209154861L;
 	
+	public Estoque() {}
+	public Estoque(Empresa empresa, StatusEstoque status, Produto produto, Integer quantidade,
+			Date dataEntrada, Boolean ativo) {
+		super();
+		this.empresa = empresa;
+		this.status = status;
+		this.produto = produto;
+		this.quantidade = quantidade;
+		this.dataEntrada = dataEntrada;
+		this.ativo = ativo;
+	}
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ESTOQUE_SEQ_ID")
 	private Integer id;		
@@ -48,7 +60,7 @@ public class Estoque implements Serializable {
 	@Column
 	private Boolean ativo;
 	
-	
+
 	public Integer getId() {
 		return id;
 	}

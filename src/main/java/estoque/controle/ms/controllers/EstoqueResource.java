@@ -9,7 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -35,7 +34,7 @@ public class EstoqueResource {
 		
 		try {
 			List<Estoque> estoques = estoqueService.getAll();
-			return new ResponseEntity<List<Estoque>>(estoques, HttpStatus.ACCEPTED);
+			return new ResponseEntity<List<Estoque>>(estoques, HttpStatus.OK);
 			
 		} catch (Exception e) {
 			log.info("EstoqueResource: Erro ao executar getEstoque({})", e.getCause().toString());
@@ -52,7 +51,7 @@ public class EstoqueResource {
 		try {
 			Estoque estoque = estoqueService.getById(id);
 			if (estoque != null) 
-				return new ResponseEntity<Estoque>(estoque, HttpStatus.ACCEPTED);
+				return new ResponseEntity<Estoque>(estoque, HttpStatus.OK);
 			else
 				return new ResponseEntity<Estoque>(HttpStatus.NOT_FOUND);
 						
@@ -72,7 +71,7 @@ public class EstoqueResource {
 		try {
 			List<Estoque> estoquesPorEmpresa = estoqueService.getEstoquePorEmpresaId(idEmpresa);
 			if(estoquesPorEmpresa == null || !estoquesPorEmpresa.isEmpty())
-				return new ResponseEntity<List<Estoque>>(estoquesPorEmpresa, HttpStatus.ACCEPTED);
+				return new ResponseEntity<List<Estoque>>(estoquesPorEmpresa, HttpStatus.OK);
 			else
 				return new ResponseEntity<List<Estoque>>(HttpStatus.NOT_FOUND);
 			
@@ -94,7 +93,7 @@ public class EstoqueResource {
 			if (estoques.isEmpty())
 				return new ResponseEntity<List<Estoque>>(HttpStatus.NOT_FOUND); 
 			
-			return new ResponseEntity<List<Estoque>>(estoques, HttpStatus.ACCEPTED);
+			return new ResponseEntity<List<Estoque>>(estoques, HttpStatus.OK);
 			
 		} catch (Exception e) {
 			log.info("EstoqueResource: Erro ao executar getEstoquePorProduto(/produto/{} - {})",idProduto, 
@@ -115,7 +114,7 @@ public class EstoqueResource {
 			if (estoques.isEmpty())
 				return new ResponseEntity<List<Estoque>>(HttpStatus.NOT_FOUND); 
 			
-			return new ResponseEntity<List<Estoque>>(estoques, HttpStatus.ACCEPTED);
+			return new ResponseEntity<List<Estoque>>(estoques, HttpStatus.OK);
 			
 		} catch (Exception e) {
 			log.info("EstoqueResource: Erro ao executar getEstoquePorEmpresaProduto(/{}/{} - {})",idProduto, idEmpresa, 

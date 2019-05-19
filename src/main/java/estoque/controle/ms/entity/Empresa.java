@@ -17,6 +17,17 @@ import javax.persistence.TemporalType;
 public class Empresa implements Serializable{
 		
 	private static final long serialVersionUID = 5653573443159688609L;
+	
+	public Empresa() {}
+	public Empresa(Integer id, String nomeFantasia, String razaoSocial, String cnpj, Date dataEntrada, Boolean ativo) {
+		super();
+		this.id = id;
+		this.nomeFantasia = nomeFantasia;
+		this.razaoSocial = razaoSocial;
+		this.cnpj = cnpj;
+		this.dataEntrada = dataEntrada;
+		this.ativo = ativo;
+	}	
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "EMPRESA_SEQ_ID")

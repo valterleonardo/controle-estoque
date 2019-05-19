@@ -18,6 +18,16 @@ public class Produto implements Serializable{
 
 	private static final long serialVersionUID = -6913338869810996016L;
 	
+	public Produto() {}	
+	public Produto(Integer id, String descricao, String nome, Date dataEntrada, Boolean ativo) {
+		super();
+		this.id = id;
+		this.descricao = descricao;
+		this.nome = nome;
+		this.dataEntrada = dataEntrada;
+		this.ativo = ativo;
+	}
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "PRODUTO_SEQ_ID")
 	private Integer id;		

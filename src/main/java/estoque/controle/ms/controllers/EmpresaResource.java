@@ -34,7 +34,7 @@ public class EmpresaResource {
 		
 		try {
 			List<Empresa> empresas = empresaService.getAll();
-			return new ResponseEntity<List<Empresa>>(empresas, HttpStatus.ACCEPTED);
+			return new ResponseEntity<List<Empresa>>(empresas, HttpStatus.OK);
 			
 		} catch (Exception e) {
 			log.info("EmpresaResource: Erro ao executar getEmpresa({})", e.getCause().toString());
@@ -51,7 +51,7 @@ public class EmpresaResource {
 		try {
 			Empresa empresa = empresaService.getById(id);
 			if (empresa != null) 
-				return new ResponseEntity<Empresa>(empresa, HttpStatus.ACCEPTED);
+				return new ResponseEntity<Empresa>(empresa, HttpStatus.OK);
 			else
 				return new ResponseEntity<Empresa>(HttpStatus.NOT_FOUND);
 						

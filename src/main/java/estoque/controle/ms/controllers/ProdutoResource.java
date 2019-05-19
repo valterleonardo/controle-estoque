@@ -2,8 +2,6 @@ package estoque.controle.ms.controllers;
 
 import java.util.List;
 
-import javax.annotation.processing.SupportedOptions;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -11,8 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -38,7 +34,7 @@ public class ProdutoResource {
 		
 		try {
 			List<Produto> produtos = produtoService.getAll();
-			return new ResponseEntity<List<Produto>>(produtos, HttpStatus.ACCEPTED);
+			return new ResponseEntity<List<Produto>>(produtos, HttpStatus.OK);
 			
 		} catch (Exception e) {
 			log.info("ProdutoResource: Erro ao executar getProduto({})", e.getCause().toString());
@@ -55,7 +51,7 @@ public class ProdutoResource {
 		try {
 			Produto produto = produtoService.getById(id);
 			if (produto != null) 
-				return new ResponseEntity<Produto>(produto, HttpStatus.ACCEPTED);
+				return new ResponseEntity<Produto>(produto, HttpStatus.OK);
 			else
 				return new ResponseEntity<Produto>(HttpStatus.NOT_FOUND);
 						
