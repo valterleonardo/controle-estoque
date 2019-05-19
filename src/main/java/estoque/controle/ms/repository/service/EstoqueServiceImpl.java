@@ -59,12 +59,12 @@ public class EstoqueServiceImpl implements EstoqueService {
     }
     
     @Override
-    public boolean delete(Integer id) {
+    public boolean delete(Estoque estoque) {
     	
     	try {
-    		return estoqueRepository.findById(id)
+    		return estoqueRepository.findById(estoque.getId())
     				.map(resultado -> {
-    					estoqueRepository.deleteById(id);
+    					estoqueRepository.delete(estoque);;
     					return true;
     					}).orElse(false);
         	

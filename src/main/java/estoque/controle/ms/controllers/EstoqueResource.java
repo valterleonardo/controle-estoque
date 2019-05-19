@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import estoque.controle.ms.entity.Estoque;
@@ -125,7 +126,7 @@ public class EstoqueResource {
 		}  
 	}	
 	
-	@PutMapping
+	@RequestMapping(method = {RequestMethod.POST, RequestMethod.PUT} )
 	public ResponseEntity<Estoque> putEstoque(@RequestBody Estoque estoque){
 		log.info("EstoqueResource: iniciando processamento putEstoque()");
 		try {
@@ -140,21 +141,21 @@ public class EstoqueResource {
 		}
 	}
 	
-	@DeleteMapping(path = {"/{id}"})
-	public ResponseEntity<?> deleteEstoque(@PathVariable Integer id){
-		log.info("EstoqueResource: iniciando processamento deleteEstoque({})", id);
+	@DeleteMapping
+	public ResponseEntity<Estoque> deleteEstoque(@RequestBody Estoque estoque){
+		log.info("EstoqueResource: iniciando processamento deleteEstoque({})", estoque.getId());
 		
 		try {
-			if(estoqueService.delete(id))
+			if(estoqueService.delete(estoque))
 				return new ResponseEntity<>(HttpStatus.ACCEPTED);
 			else
 				return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		} catch (Exception e) {
-			log.info("EstoqueResource: Erro ao deletar estoque deleteEstoque({})", e.getCause().toString());
+			log.info("EstoqueResource: Erro ao deletar estoque deleteEstoque({}) - {}", estoque.getId(), e.getCause().toString());
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 			
 		} finally {
-			log.info("EstoqueResource: finalizando processamento deleteEstoque({})", id);
+			log.info("EstoqueResource: finalizando processamento deleteEstoque({})", estoque.getId());
 		}
 	}
 }
