@@ -41,25 +41,29 @@ public class EstoqueResourceTest extends MsControleEstoqueApplicationTests{
 	
 	@Test
 	public void testGetOneEstoque() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.get("/api/estoque/1"))
+		List<Estoque> estoque = estoqueService.getAll();
+		this.mockMvc.perform(MockMvcRequestBuilders.get("/api/estoque/" + estoque.get(0).getId()))
 		.andExpect(MockMvcResultMatchers.status().isOk());
 	}
 	
 	@Test
 	public void testGetOneEstoquePorEmpresa() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.get("/api/estoque/empresa/1"))
+		List<Estoque> estoque = estoqueService.getAll();
+		this.mockMvc.perform(MockMvcRequestBuilders.get("/api/estoque/empresa/"+estoque.get(0).getEmpresa().getId()))
 		.andExpect(MockMvcResultMatchers.status().isOk());
 	}
 	
 	@Test
 	public void testGetOneEstoquePorProduto() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.get("/api/estoque/produto/1"))
+		List<Estoque> estoque = estoqueService.getAll();
+		this.mockMvc.perform(MockMvcRequestBuilders.get("/api/estoque/produto/" + estoque.get(0).getProduto().getId()))
 		.andExpect(MockMvcResultMatchers.status().isOk());
 	}
 	
 	@Test
 	public void testGetOneEstoquePorEmpresaProduto() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.get("/api/estoque/1/1"))
+		List<Estoque> estoque = estoqueService.getAll();
+		this.mockMvc.perform(MockMvcRequestBuilders.get("/api/estoque/"+estoque.get(0).getEmpresa().getId()+"/"+estoque.get(0).getProduto().getId()))
 		.andExpect(MockMvcResultMatchers.status().isOk());
 	}
 	
@@ -78,15 +82,15 @@ public class EstoqueResourceTest extends MsControleEstoqueApplicationTests{
 	@Test
 	public void testDeleteEstoque() throws Exception{
 		List<Estoque> estoque = estoqueService.getAll();
-		if(!estoqueService.delete(estoque.get(1)))
+		if(!estoqueService.delete(estoque.get(0)))
 			throw new Exception();
 	}
 	
 	@Test
 	public void testEditEstoque() throws Exception{
 		List<Estoque> estoque = estoqueService.getAll();
-		estoque.get(1).setDataEntrada(new Date());	
-		estoqueService.save(estoque.get(1));
+		estoque.get(0).setDataEntrada(new Date());	
+		estoqueService.save(estoque.get(0));
 			
 	}
 }
