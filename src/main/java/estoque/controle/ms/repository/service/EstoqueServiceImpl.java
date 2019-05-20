@@ -50,12 +50,7 @@ public class EstoqueServiceImpl implements EstoqueService {
 
     @Override
     public Estoque save(Estoque estoque) {
-        try {
-        	return estoqueRepository.save(estoque);			
-		} catch (Exception e) {
-			return null;
-		}
-        
+        return estoqueRepository.save(estoque);			
     }
     
     @Override

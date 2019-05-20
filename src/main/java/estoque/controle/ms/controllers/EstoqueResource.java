@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,6 +20,7 @@ import estoque.controle.ms.repository.service.EstoqueService;
 
 @RestController
 @RequestMapping(value="/api/estoque")
+@CrossOrigin
 public class EstoqueResource {
 
 	private final static Logger log = LoggerFactory.getLogger(EstoqueResource.class);
@@ -130,8 +132,10 @@ public class EstoqueResource {
 		log.info("EstoqueResource: iniciando processamento putEstoque()");
 		try {
 			Estoque novoEstoque = estoqueService.save(estoque);
-			return new ResponseEntity<Estoque>(novoEstoque, HttpStatus.ACCEPTED);
+			if(novoEstoque == null)
+				return new ResponseEntity<Estoque>(HttpStatus.BAD_REQUEST);
 			
+			return new ResponseEntity<Estoque>(novoEstoque, HttpStatus.ACCEPTED);
 		} catch (Exception e) {
 			log.info("EstoqueResource: Erro ao salvar estoque putEstoque({})", e.getCause().toString());
 			return new ResponseEntity<Estoque>(HttpStatus.INTERNAL_SERVER_ERROR);

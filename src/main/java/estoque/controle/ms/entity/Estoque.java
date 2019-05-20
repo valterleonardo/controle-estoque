@@ -32,7 +32,7 @@ public class Estoque implements Serializable {
 		this.produto = produto;
 		this.quantidade = quantidade;
 		this.dataEntrada = dataEntrada;
-		this.ativo = ativo;
+		this.ativo = ativo == null ? false : ativo;
 	}
 	
 	@Id
@@ -40,20 +40,21 @@ public class Estoque implements Serializable {
 	private Integer id;		
 	
 	@ManyToOne
-	@JoinColumn(name = "empresa_id")
+	@JoinColumn(name = "empresa_id", nullable = false)
 	private Empresa empresa;
 	
 	@Enumerated
+	@Column(nullable = false)
 	private StatusEstoque status;
 	
 	@ManyToOne
-	@JoinColumn(name = "produto_id")
+	@JoinColumn(name = "produto_id", nullable = false)
 	private Produto produto;
 	
-	@Column
+	@Column(nullable = false)
 	private Integer quantidade;	
 	
-	@Column(name = "data_entrada")
+	@Column(name = "data_entrada", nullable = false)
 	@Temporal(TemporalType.DATE)
 	private Date dataEntrada;
 	
@@ -110,10 +111,10 @@ public class Estoque implements Serializable {
 	}
 
 	public Boolean getAtivo() {
-		return ativo;
+		return ativo == null ? false : ativo;
 	}
 
 	public void setAtivo(Boolean ativo) {
-		this.ativo = ativo;
+		this.ativo = ativo == null ? false : ativo;
 	}
 }

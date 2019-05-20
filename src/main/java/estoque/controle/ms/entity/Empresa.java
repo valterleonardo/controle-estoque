@@ -26,14 +26,14 @@ public class Empresa implements Serializable{
 		this.razaoSocial = razaoSocial;
 		this.cnpj = cnpj;
 		this.dataEntrada = dataEntrada;
-		this.ativo = ativo;
+		this.ativo = ativo == null ? false : ativo;
 	}	
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "EMPRESA_SEQ_ID")
 	private Integer id;		
 	
-	@Column
+	@Column(nullable = false)
 	private String nomeFantasia;
 	
 	@Column
@@ -42,11 +42,11 @@ public class Empresa implements Serializable{
 	@Column
 	private String cnpj;
 	
-	@Column(name = "data_entrada")
+	@Column(name = "data_entrada", nullable = false)
 	@Temporal(TemporalType.DATE)
 	private Date dataEntrada;
 	
-	@Column
+	@Column(nullable = false)
 	private Boolean ativo;
 
 
@@ -91,11 +91,11 @@ public class Empresa implements Serializable{
 	}
 
 	public Boolean getAtivo() {
-		return ativo;
+		return ativo == null ? false : ativo;
 	}
 
-	public void setAtivo(Boolean ativo) {
-		this.ativo = ativo;
+	public void setAtivo(Boolean ativo) {		
+		this.ativo = ativo == null ? false : ativo;
 	}
 
 
