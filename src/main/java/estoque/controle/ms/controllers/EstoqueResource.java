@@ -20,7 +20,6 @@ import estoque.controle.ms.repository.service.EstoqueService;
 
 @RestController
 @RequestMapping(value="/api/estoque")
-@CrossOrigin
 public class EstoqueResource {
 
 	private final static Logger log = LoggerFactory.getLogger(EstoqueResource.class);

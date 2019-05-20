@@ -127,4 +127,5 @@ public class EstoqueServiceImpl implements EstoqueService {
 			entityManager.close();
 		}
 	}
+
 }
